@@ -9,12 +9,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use mysql_xdevapi\Exception;
 
-class SendEmailVerificationEmailJob implements ShouldQueue
+class SendWelcomeEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @var User
+     */
     private $user;
 
     /**
@@ -24,7 +26,8 @@ class SendEmailVerificationEmailJob implements ShouldQueue
      */
     public function __construct(User $user)
     {
-        $this->user=$user;
+        //
+        $this->user = $user;
     }
 
     /**
@@ -34,8 +37,6 @@ class SendEmailVerificationEmailJob implements ShouldQueue
      */
     public function handle()
     {
-        throw new \Exception('exp');
-        sleep('3');
-        var_dump('send email verification to '.'....'.$this->user->name);
+        var_dump('send welcome email to :' . $this->user->name);
     }
 }

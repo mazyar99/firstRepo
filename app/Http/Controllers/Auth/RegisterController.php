@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SendEmailVerificationEmailJob;
+use App\Jobs\SendWelcomeEmailJob;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -70,10 +71,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+//        SendEmailVerificationEmailJob::dispatch($user)->delay(now()->addSeconds(40));
 
-        SendEmailVerificationEmailJob::dispatch($user);
-        SendEmailVerificationEmailJob::dispatch($user)->onQueue('verify-email')->delay(now()->addSeconds(40));
-        SendEmailVerificationEmailJob::dispatchNow($user)q;
+        SendEmailVerificationEmailJob::withChain([
+            new SendWelcomeEmailJob($user)
+        ])->dispatch($user);
         return $user;
     }
 }
