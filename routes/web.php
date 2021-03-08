@@ -29,6 +29,9 @@ Route::get('/test', function () {
 
 Route::resource('/post',\App\Http\Controllers\PostController::class);
 
+//send email
+Route::get('/sendEmail',[\App\Http\Controllers\sendEmailController::class,'send']);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
