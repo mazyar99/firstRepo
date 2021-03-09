@@ -31,6 +31,8 @@ Route::resource('/post',\App\Http\Controllers\PostController::class);
 
 //send email
 Route::get('/sendEmail',[\App\Http\Controllers\sendEmailController::class,'send']);
+Route::get('/sendEmailTest',[\App\Http\Controllers\sendEmailController::class,'sendTest'])->middleware('auth');
+Route::get('/sendMarkDownEmail',[\App\Http\Controllers\sendEmailController::class,'sendMarkDown'])->middleware('auth');
 
 Auth::routes();
 
